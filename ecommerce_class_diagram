@@ -1,4 +1,4 @@
-@startuml
+https://www.plantuml.com/plantuml/png/<@startuml
 title UML Class Diagram – E-Commerce System
 
 ' =============================
@@ -142,3 +142,4 @@ class Discount {
 Product --> Discount
 
 @enduml
+>
