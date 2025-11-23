@@ -1,0 +1,144 @@
+@startuml
+title UML Class Diagram – E-Commerce System
+
+' =============================
+'      ABSTRACT CLASSES
+' =============================
+abstract class User {
+    - id: int
+    - name: String
+    - email: String
+    - address: String
+    - phone: String
+    - role: String
+    + register()
+    + login()
+    + updateData()
+}
+
+class Client {
+    + loyaltyPoints: int
+}
+
+class Admin {
+    + logAction()
+}
+
+User <|-- Client
+User <|-- Admin
+
+' =============================
+'      PRODUCT MODULE
+' =============================
+class Product {
+    - id: int
+    - name: String
+    - description: String
+    - price: double
+    - stock: int
+    - category: Category
+    + create()
+    + update()
+    + delete()
+}
+
+class Category {
+    - id: int
+    - name: String
+}
+
+Category "1" --> "*" Product
+
+' =============================
+'      CART, ORDER MODULE
+' =============================
+class Order {
+    - id: int
+    - createdAt: Date
+    - status: String
+    - totalAmount: double
+    - delivery: Delivery
+    + place()
+    + cancel()
+    + pay()
+}
+
+class OrderItem {
+    - quantity: int
+}
+
+Client "1" --> "*" Order
+Order "*" --> "1" Delivery
+Order "*" --> "*" Product : contains >
+
+Order --> "*" OrderItem
+OrderItem --> Product
+
+' =============================
+'      PAYMENT MODULE
+' =============================
+class Payment {
+    - id: int
+    - type: String
+    - amount: double
+    - status: String
+    - date: Date
+    + process()
+    + refund()
+}
+
+Order "1" --> "*" Payment
+
+' =============================
+'      DELIVERY MODULE
+' =============================
+class Delivery {
+    - id: int
+    - address: String
+    - status: String
+    - courier: Courier
+    + send()
+    + track()
+    + complete()
+}
+
+class Courier {
+    - id: int
+    - name: String
+}
+
+Courier "1" --> "*" Delivery
+
+' =============================
+'      REVIEWS MODULE
+' =============================
+class Review {
+    - id: int
+    - rating: int
+    - comment: String
+    - date: Date
+}
+
+Client "1" --> "*" Review
+Product "1" --> "*" Review
+
+' =============================
+'      DISCOUNT & PROMOCODES
+' =============================
+class PromoCode {
+    - code: String
+    - discountValue: double
+    - expiresAt: Date
+    + apply()
+}
+
+Order --> PromoCode
+
+class Discount {
+    - value: double
+    - description: String
+}
+
+Product --> Discount
+
+@enduml
